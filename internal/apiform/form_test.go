@@ -2,7 +2,7 @@ package apiform
 
 import (
 	"bytes"
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/sibabale/rails-go/packages/param"
 	"io"
 	"mime/multipart"
 	"strings"

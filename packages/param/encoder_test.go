@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/sibabale/rails-go/packages/param"
 )
 
 type Struct struct {

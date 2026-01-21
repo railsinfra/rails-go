@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/rails-go"
-	"github.com/stainless-sdks/rails-go/internal/testutil"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/sibabale/rails-go"
+	"github.com/sibabale/rails-go/internal/testutil"
+	"github.com/sibabale/rails-go/option"
 )
 
 func TestUsage(t *testing.T) {

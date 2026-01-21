@@ -1,7 +1,7 @@
 package apijson
 
 import (
-	"github.com/stainless-sdks/rails-go/packages/respjson"
+	"github.com/sibabale/rails-go/packages/respjson"
 	"reflect"
 )
 
