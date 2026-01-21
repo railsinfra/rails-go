@@ -2,7 +2,7 @@
 package json
 
 import (
-	"github.com/stainless-sdks/rails-go/internal/encoding/json/shims"
+	"github.com/sibabale/rails-go/internal/encoding/json/shims"
 	"reflect"
 	"time"
 )

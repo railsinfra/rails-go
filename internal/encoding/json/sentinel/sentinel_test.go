@@ -1,8 +1,8 @@
 package sentinel_test
 
 import (
-	"github.com/stainless-sdks/rails-go/internal/encoding/json/sentinel"
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/sibabale/rails-go/internal/encoding/json/sentinel"
+	"github.com/sibabale/rails-go/packages/param"
 	"reflect"
 	"slices"
 	"testing"
