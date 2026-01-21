@@ -48,16 +48,17 @@ func main() {
 	client := rails.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("RAILS_API_KEY")
 	)
-	pet, err := client.Pet.Update(context.TODO(), rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
+		Email:        "dev@stainless.com",
+		FirstName:    "first_name",
+		LastName:     "last_name",
+		Password:     "password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", pet.ID)
+	fmt.Printf("%+v\n", user.UserID)
 }
 
 ```
@@ -263,7 +264,7 @@ client := rails.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Pet.Update(context.TODO(), ...,
+client.Users.New(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -294,11 +295,12 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Pet.Update(context.TODO(), rails.PetUpdateParams{
-	Pet: rails.PetParam{
-		Name:      "doggie",
-		PhotoURLs: []string{"string"},
-	},
+_, err := client.Users.New(context.TODO(), rails.UserNewParams{
+	Email:        "dev@stainless.com",
+	FirstName:    "first_name",
+	LastName:     "last_name",
+	Password:     "password",
+	XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 })
 if err != nil {
 	var apierr *rails.Error
@@ -306,7 +308,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/pet": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/api/v1/users": 400 Bad Request { ... }
 }
 ```
 
@@ -324,13 +326,14 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Pet.Update(
+client.Users.New(
 	ctx,
-	rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	rails.UserNewParams{
+		Email:        "dev@stainless.com",
+		FirstName:    "first_name",
+		LastName:     "last_name",
+		Password:     "password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -365,13 +368,14 @@ client := rails.NewClient(
 )
 
 // Override per-request:
-client.Pet.Update(
+client.Users.New(
 	context.TODO(),
-	rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	rails.UserNewParams{
+		Email:        "dev@stainless.com",
+		FirstName:    "first_name",
+		LastName:     "last_name",
+		Password:     "password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithMaxRetries(5),
 )
@@ -385,20 +389,21 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-pet, err := client.Pet.Update(
+user, err := client.Users.New(
 	context.TODO(),
-	rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	rails.UserNewParams{
+		Email:        "dev@stainless.com",
+		FirstName:    "first_name",
+		LastName:     "last_name",
+		Password:     "password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", pet)
+fmt.Printf("%+v\n", user)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)

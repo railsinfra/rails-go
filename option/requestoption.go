@@ -263,13 +263,13 @@ func WithRequestTimeout(dur time.Duration) RequestOption {
 // environment to be the "production" environment. An environment specifies which base URL
 // to use by default.
 func WithEnvironmentProduction() RequestOption {
-	return requestconfig.WithDefaultBaseURL("https://petstore3.swagger.io/api/v3/")
+	return requestconfig.WithDefaultBaseURL("https://api.rails.com/")
 }
 
 // WithAPIKey returns a RequestOption that sets the client setting "api_key".
 func WithAPIKey(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
 		r.APIKey = value
-		return r.Apply(WithHeader("api_key", r.APIKey))
+		return r.Apply(WithHeader("X-API-Key", r.APIKey))
 	})
 }
