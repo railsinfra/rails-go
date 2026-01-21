@@ -25,14 +25,15 @@ func TestUsage(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	t.Skip("Prism tests are disabled")
-	pet, err := client.Pet.Update(context.TODO(), rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
+		Email:        "dev@stainless.com",
+		FirstName:    "first_name",
+		LastName:     "last_name",
+		Password:     "password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", pet.ID)
+	t.Logf("%+v\n", user.UserID)
 }

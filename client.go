@@ -16,10 +16,10 @@ import (
 // interacting with the rails API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	Options []option.RequestOption
-	Pet     PetService
-	Store   StoreService
-	User    UserService
+	Options      []option.RequestOption
+	Users        UserService
+	Accounts     AccountService
+	Transactions TransactionService
 }
 
 // DefaultClientOptions read from the environment (RAILS_API_KEY, RAILS_BASE_URL).
@@ -44,9 +44,9 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
-	r.Pet = NewPetService(opts...)
-	r.Store = NewStoreService(opts...)
-	r.User = NewUserService(opts...)
+	r.Users = NewUserService(opts...)
+	r.Accounts = NewAccountService(opts...)
+	r.Transactions = NewTransactionService(opts...)
 
 	return
 }
