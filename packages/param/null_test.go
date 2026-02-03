@@ -2,7 +2,7 @@ package param_test
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/sibabale/rails-go/packages/param"
 	"testing"
 )
 
