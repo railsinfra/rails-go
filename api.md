@@ -1,3 +1,7 @@
+# Shared Response Types
+
+- <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go/shared#Transaction">Transaction</a>
+
 # Users
 
 Response Types:
@@ -13,7 +17,6 @@ Methods:
 Response Types:
 
 - <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#Account">Account</a>
-- <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#Transaction">Transaction</a>
 - <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#AccountDepositResponse">AccountDepositResponse</a>
 - <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#AccountTransferResponse">AccountTransferResponse</a>
 - <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#AccountWithdrawResponse">AccountWithdrawResponse</a>
@@ -37,6 +40,6 @@ Response Types:
 
 Methods:
 
-- <code title="get /api/v1/transactions/{id}">client.Transactions.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, id <a href="https://pkg.go.dev/builtin#string">string</a>) (\*<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#Transaction">Transaction</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /api/v1/transactions/{id}">client.Transactions.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, id <a href="https://pkg.go.dev/builtin#string">string</a>) (\*<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go/shared#Transaction">Transaction</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /api/v1/transactions">client.Transactions.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionListParams">TransactionListParams</a>) (\*<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionListResponse">TransactionListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-- <code title="get /api/v1/accounts/{account_id}/transactions">client.Transactions.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionService.ListByAccount">ListByAccount</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, accountID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionListByAccountParams">TransactionListByAccountParams</a>) (\*[]<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#Transaction">Transaction</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /api/v1/accounts/{account_id}/transactions">client.Transactions.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionService.ListByAccount">ListByAccount</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, accountID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go">rails</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go#TransactionListByAccountParams">TransactionListByAccountParams</a>) (\*[]<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go/shared#Transaction">Transaction</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>

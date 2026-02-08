@@ -17,6 +17,7 @@ import (
 	"github.com/stainless-sdks/rails-go/option"
 	"github.com/stainless-sdks/rails-go/packages/param"
 	"github.com/stainless-sdks/rails-go/packages/respjson"
+	"github.com/stainless-sdks/rails-go/shared"
 )
 
 // TransactionService contains methods and other services that help with
@@ -39,7 +40,7 @@ func NewTransactionService(opts ...option.RequestOption) (r TransactionService) 
 }
 
 // Retrieve transaction
-func (r *TransactionService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *Transaction, err error) {
+func (r *TransactionService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *shared.Transaction, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
@@ -59,7 +60,7 @@ func (r *TransactionService) List(ctx context.Context, query TransactionListPara
 }
 
 // List account transactions
-func (r *TransactionService) ListByAccount(ctx context.Context, accountID string, query TransactionListByAccountParams, opts ...option.RequestOption) (res *[]Transaction, err error) {
+func (r *TransactionService) ListByAccount(ctx context.Context, accountID string, query TransactionListByAccountParams, opts ...option.RequestOption) (res *[]shared.Transaction, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if accountID == "" {
 		err = errors.New("missing required account_id parameter")
