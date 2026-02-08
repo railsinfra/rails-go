@@ -11,12 +11,12 @@ import (
 	"slices"
 	"time"
 
-	"github.com/sibabale/rails-go/internal/apijson"
-	"github.com/sibabale/rails-go/internal/apiquery"
-	"github.com/sibabale/rails-go/internal/requestconfig"
-	"github.com/sibabale/rails-go/option"
-	"github.com/sibabale/rails-go/packages/param"
-	"github.com/sibabale/rails-go/packages/respjson"
+	"github.com/stainless-sdks/rails-go/internal/apijson"
+	"github.com/stainless-sdks/rails-go/internal/apiquery"
+	"github.com/stainless-sdks/rails-go/internal/requestconfig"
+	"github.com/stainless-sdks/rails-go/option"
+	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/stainless-sdks/rails-go/packages/respjson"
 )
 
 // AccountService contains methods and other services that help with interacting

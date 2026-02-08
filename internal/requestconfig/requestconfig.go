@@ -18,10 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sibabale/rails-go/internal"
-	"github.com/sibabale/rails-go/internal/apierror"
-	"github.com/sibabale/rails-go/internal/apiform"
-	"github.com/sibabale/rails-go/internal/apiquery"
+	"github.com/stainless-sdks/rails-go/internal"
+	"github.com/stainless-sdks/rails-go/internal/apierror"
+	"github.com/stainless-sdks/rails-go/internal/apiform"
+	"github.com/stainless-sdks/rails-go/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {

@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sibabale/rails-go/packages/param"
+	"github.com/stainless-sdks/rails-go/packages/param"
 )
 
 var encoders sync.Map // map[reflect.Type]encoderFunc
