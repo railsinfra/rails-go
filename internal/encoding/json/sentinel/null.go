@@ -1,7 +1,7 @@
 package sentinel
 
 import (
-	"github.com/sibabale/rails-go/internal/encoding/json/shims"
+	"github.com/stainless-sdks/rails-go/internal/encoding/json/shims"
 	"reflect"
 	"sync"
 )

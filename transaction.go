@@ -11,12 +11,12 @@ import (
 	"slices"
 	"time"
 
-	"github.com/sibabale/rails-go/internal/apijson"
-	"github.com/sibabale/rails-go/internal/apiquery"
-	"github.com/sibabale/rails-go/internal/requestconfig"
-	"github.com/sibabale/rails-go/option"
-	"github.com/sibabale/rails-go/packages/param"
-	"github.com/sibabale/rails-go/packages/respjson"
+	"github.com/stainless-sdks/rails-go/internal/apijson"
+	"github.com/stainless-sdks/rails-go/internal/apiquery"
+	"github.com/stainless-sdks/rails-go/internal/requestconfig"
+	"github.com/stainless-sdks/rails-go/option"
+	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/stainless-sdks/rails-go/packages/respjson"
 )
 
 // TransactionService contains methods and other services that help with
@@ -47,6 +47,14 @@ func (r *TransactionService) Get(ctx context.Context, id string, opts ...option.
 	}
 	path := fmt.Sprintf("api/v1/transactions/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// List transactions by organization
+func (r *TransactionService) List(ctx context.Context, query TransactionListParams, opts ...option.RequestOption) (res *TransactionListResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	path := "api/v1/transactions"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
 }
 
@@ -124,6 +132,91 @@ const (
 	TransactionGetResponseTransactionTypeSavingsWithdraw  TransactionGetResponseTransactionType = "savings_withdraw"
 )
 
+type TransactionListResponse struct {
+	Data       []TransactionListResponseData     `json:"data,required"`
+	Pagination TransactionListResponsePagination `json:"pagination,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Data        respjson.Field
+		Pagination  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TransactionListResponse) RawJSON() string { return r.JSON.raw }
+func (r *TransactionListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Transaction as returned by list-by-organization (organization_id,
+// from/to_account_id, transaction_kind).
+type TransactionListResponseData struct {
+	ID string `json:"id,required" format:"uuid"`
+	// Amount in minor units
+	Amount         int64     `json:"amount,required"`
+	CreatedAt      time.Time `json:"created_at,required" format:"date-time"`
+	Currency       string    `json:"currency,required"`
+	FromAccountID  string    `json:"from_account_id,required" format:"uuid"`
+	OrganizationID string    `json:"organization_id,required" format:"uuid"`
+	// Any of "pending", "posted", "failed".
+	Status      string `json:"status,required"`
+	ToAccountID string `json:"to_account_id,required" format:"uuid"`
+	// Any of "deposit", "withdraw", "transfer".
+	TransactionKind string    `json:"transaction_kind,required"`
+	UpdatedAt       time.Time `json:"updated_at,required" format:"date-time"`
+	Environment     string    `json:"environment,nullable"`
+	FailureReason   string    `json:"failure_reason,nullable"`
+	IdempotencyKey  string    `json:"idempotency_key"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID              respjson.Field
+		Amount          respjson.Field
+		CreatedAt       respjson.Field
+		Currency        respjson.Field
+		FromAccountID   respjson.Field
+		OrganizationID  respjson.Field
+		Status          respjson.Field
+		ToAccountID     respjson.Field
+		TransactionKind respjson.Field
+		UpdatedAt       respjson.Field
+		Environment     respjson.Field
+		FailureReason   respjson.Field
+		IdempotencyKey  respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TransactionListResponseData) RawJSON() string { return r.JSON.raw }
+func (r *TransactionListResponseData) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type TransactionListResponsePagination struct {
+	Page       int64 `json:"page,required"`
+	PerPage    int64 `json:"per_page,required"`
+	TotalCount int64 `json:"total_count,required"`
+	TotalPages int64 `json:"total_pages,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Page        respjson.Field
+		PerPage     respjson.Field
+		TotalCount  respjson.Field
+		TotalPages  respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TransactionListResponsePagination) RawJSON() string { return r.JSON.raw }
+func (r *TransactionListResponsePagination) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type TransactionListByAccountResponse struct {
 	ID           string    `json:"id,required" format:"uuid"`
 	AccountID    string    `json:"account_id,required" format:"uuid"`
@@ -185,6 +278,21 @@ const (
 	TransactionListByAccountResponseTransactionTypeRecurringPayment TransactionListByAccountResponseTransactionType = "recurring_payment"
 	TransactionListByAccountResponseTransactionTypeSavingsWithdraw  TransactionListByAccountResponseTransactionType = "savings_withdraw"
 )
+
+type TransactionListParams struct {
+	OrganizationID string           `query:"organization_id,required" format:"uuid" json:"-"`
+	Page           param.Opt[int64] `query:"page,omitzero" json:"-"`
+	PerPage        param.Opt[int64] `query:"per_page,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [TransactionListParams]'s query parameters as `url.Values`.
+func (r TransactionListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
 
 type TransactionListByAccountParams struct {
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
