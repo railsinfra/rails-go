@@ -50,10 +50,10 @@ func main() {
 		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
 	)
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
@@ -297,10 +297,10 @@ To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
 _, err := client.Users.New(context.TODO(), rails.UserNewParams{
-	Email:        "dev@stainless.com",
-	FirstName:    "first_name",
-	LastName:     "last_name",
-	Password:     "password",
+	Email:        "jane@example.com",
+	FirstName:    "Jane",
+	LastName:     "Doe",
+	Password:     "your-secure-password",
 	XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 })
 if err != nil {
@@ -330,10 +330,10 @@ defer cancel()
 client.Users.New(
 	ctx,
 	rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	// This sets the per-retry timeout
@@ -372,10 +372,10 @@ client := rails.NewClient(
 client.Users.New(
 	context.TODO(),
 	rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithMaxRetries(5),
@@ -393,10 +393,10 @@ var response *http.Response
 user, err := client.Users.New(
 	context.TODO(),
 	rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithResponseInto(&response),

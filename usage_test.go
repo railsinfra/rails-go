@@ -26,10 +26,10 @@ func TestUsage(t *testing.T) {
 	)
 	t.Skip("Prism tests are disabled")
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
