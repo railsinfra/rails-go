@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sibabale/rails-go"
-	"github.com/sibabale/rails-go/internal/testutil"
-	"github.com/sibabale/rails-go/option"
+	"github.com/stainless-sdks/rails-go"
+	"github.com/stainless-sdks/rails-go/internal/testutil"
+	"github.com/stainless-sdks/rails-go/option"
 )
 
 func TestUserNew(t *testing.T) {

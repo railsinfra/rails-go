@@ -1,4 +1,4 @@
-module github.com/sibabale/rails-go
+module github.com/stainless-sdks/rails-go
 
 go 1.22
 

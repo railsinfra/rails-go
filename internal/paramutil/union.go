@@ -2,7 +2,7 @@ package paramutil
 
 import (
 	"fmt"
-	"github.com/sibabale/rails-go/packages/param"
+	"github.com/stainless-sdks/rails-go/packages/param"
 	"reflect"
 )
 

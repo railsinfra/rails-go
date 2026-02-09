@@ -3,7 +3,7 @@ package param
 import (
 	"encoding/json"
 	"fmt"
-	shimjson "github.com/sibabale/rails-go/internal/encoding/json"
+	shimjson "github.com/stainless-sdks/rails-go/internal/encoding/json"
 	"time"
 )
 
