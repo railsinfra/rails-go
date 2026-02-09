@@ -7,7 +7,7 @@ package apijson
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/sibabale/rails-go/packages/param"
 	"reflect"
 	"strconv"
 	"sync"

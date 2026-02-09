@@ -1,7 +1,7 @@
 package apiform
 
 import (
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/sibabale/rails-go/packages/param"
 	"mime/multipart"
 	"reflect"
 )
