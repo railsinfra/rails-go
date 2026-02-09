@@ -8,8 +8,8 @@ import (
 	"os"
 	"slices"
 
-	"github.com/sibabale/rails-go/internal/requestconfig"
-	"github.com/sibabale/rails-go/option"
+	"github.com/stainless-sdks/rails-go/internal/requestconfig"
+	"github.com/stainless-sdks/rails-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with

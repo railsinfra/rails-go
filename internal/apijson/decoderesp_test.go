@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/sibabale/rails-go/internal/apijson"
-	"github.com/sibabale/rails-go/packages/respjson"
+	"github.com/stainless-sdks/rails-go/internal/apijson"
+	"github.com/stainless-sdks/rails-go/packages/respjson"
 	"testing"
 )
 

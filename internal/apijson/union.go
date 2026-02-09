@@ -2,7 +2,7 @@ package apijson
 
 import (
 	"errors"
-	"github.com/sibabale/rails-go/packages/param"
+	"github.com/stainless-sdks/rails-go/packages/param"
 	"reflect"
 
 	"github.com/tidwall/gjson"
