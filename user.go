@@ -37,7 +37,7 @@ func NewUserService(opts ...option.RequestOption) (r UserService) {
 // Create user
 func (r *UserService) New(ctx context.Context, params UserNewParams, opts ...option.RequestOption) (res *UserNewResponse, err error) {
 	if !param.IsOmitted(params.XEnvironment) {
-		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%s", params.XEnvironment)))
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
 	}
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/users"
