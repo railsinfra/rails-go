@@ -24,7 +24,7 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	t.Skip("Prism tests are disabled")
+	t.Skip("Mock server tests are disabled")
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
 		Email:        "jane@example.com",
 		FirstName:    "Jane",
