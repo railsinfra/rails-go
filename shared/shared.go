@@ -17,22 +17,22 @@ type paramUnion = param.APIUnion
 type paramObj = param.APIObject
 
 type Transaction struct {
-	ID           string    `json:"id,required" format:"uuid"`
-	AccountID    string    `json:"account_id,required" format:"uuid"`
-	Amount       string    `json:"amount,required"`
-	BalanceAfter string    `json:"balance_after,required"`
-	CreatedAt    time.Time `json:"created_at,required" format:"date-time"`
-	Currency     string    `json:"currency,required"`
+	ID           string    `json:"id" api:"required" format:"uuid"`
+	AccountID    string    `json:"account_id" api:"required" format:"uuid"`
+	Amount       string    `json:"amount" api:"required"`
+	BalanceAfter string    `json:"balance_after" api:"required"`
+	CreatedAt    time.Time `json:"created_at" api:"required" format:"date-time"`
+	Currency     string    `json:"currency" api:"required"`
 	// Any of "pending", "completed", "failed", "cancelled".
-	Status TransactionStatus `json:"status,required"`
+	Status TransactionStatus `json:"status" api:"required"`
 	// Any of "deposit", "withdrawal", "transfer", "recurring_payment",
 	// "savings_withdraw".
-	TransactionType     TransactionTransactionType `json:"transaction_type,required"`
-	UpdatedAt           time.Time                  `json:"updated_at,required" format:"date-time"`
-	Description         string                     `json:"description,nullable"`
-	ExternalRecipientID string                     `json:"external_recipient_id,nullable"`
-	RecipientAccountID  string                     `json:"recipient_account_id,nullable" format:"uuid"`
-	ReferenceID         string                     `json:"reference_id,nullable" format:"uuid"`
+	TransactionType     TransactionTransactionType `json:"transaction_type" api:"required"`
+	UpdatedAt           time.Time                  `json:"updated_at" api:"required" format:"date-time"`
+	Description         string                     `json:"description" api:"nullable"`
+	ExternalRecipientID string                     `json:"external_recipient_id" api:"nullable"`
+	RecipientAccountID  string                     `json:"recipient_account_id" api:"nullable" format:"uuid"`
+	ReferenceID         string                     `json:"reference_id" api:"nullable" format:"uuid"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                  respjson.Field

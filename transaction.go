@@ -72,8 +72,8 @@ func (r *TransactionService) ListByAccount(ctx context.Context, accountID string
 }
 
 type TransactionListResponse struct {
-	Data       []TransactionListResponseData     `json:"data,required"`
-	Pagination TransactionListResponsePagination `json:"pagination,required"`
+	Data       []TransactionListResponseData     `json:"data" api:"required"`
+	Pagination TransactionListResponsePagination `json:"pagination" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -92,21 +92,21 @@ func (r *TransactionListResponse) UnmarshalJSON(data []byte) error {
 // Transaction as returned by list-by-organization (organization_id,
 // from/to_account_id, transaction_kind).
 type TransactionListResponseData struct {
-	ID string `json:"id,required" format:"uuid"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Amount in minor units
-	Amount         int64     `json:"amount,required"`
-	CreatedAt      time.Time `json:"created_at,required" format:"date-time"`
-	Currency       string    `json:"currency,required"`
-	FromAccountID  string    `json:"from_account_id,required" format:"uuid"`
-	OrganizationID string    `json:"organization_id,required" format:"uuid"`
+	Amount         int64     `json:"amount" api:"required"`
+	CreatedAt      time.Time `json:"created_at" api:"required" format:"date-time"`
+	Currency       string    `json:"currency" api:"required"`
+	FromAccountID  string    `json:"from_account_id" api:"required" format:"uuid"`
+	OrganizationID string    `json:"organization_id" api:"required" format:"uuid"`
 	// Any of "pending", "posted", "failed".
-	Status      string `json:"status,required"`
-	ToAccountID string `json:"to_account_id,required" format:"uuid"`
+	Status      string `json:"status" api:"required"`
+	ToAccountID string `json:"to_account_id" api:"required" format:"uuid"`
 	// Any of "deposit", "withdraw", "transfer".
-	TransactionKind string    `json:"transaction_kind,required"`
-	UpdatedAt       time.Time `json:"updated_at,required" format:"date-time"`
-	Environment     string    `json:"environment,nullable"`
-	FailureReason   string    `json:"failure_reason,nullable"`
+	TransactionKind string    `json:"transaction_kind" api:"required"`
+	UpdatedAt       time.Time `json:"updated_at" api:"required" format:"date-time"`
+	Environment     string    `json:"environment" api:"nullable"`
+	FailureReason   string    `json:"failure_reason" api:"nullable"`
 	IdempotencyKey  string    `json:"idempotency_key"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -135,10 +135,10 @@ func (r *TransactionListResponseData) UnmarshalJSON(data []byte) error {
 }
 
 type TransactionListResponsePagination struct {
-	Page       int64 `json:"page,required"`
-	PerPage    int64 `json:"per_page,required"`
-	TotalCount int64 `json:"total_count,required"`
-	TotalPages int64 `json:"total_pages,required"`
+	Page       int64 `json:"page" api:"required"`
+	PerPage    int64 `json:"per_page" api:"required"`
+	TotalCount int64 `json:"total_count" api:"required"`
+	TotalPages int64 `json:"total_pages" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Page        respjson.Field
@@ -157,7 +157,7 @@ func (r *TransactionListResponsePagination) UnmarshalJSON(data []byte) error {
 }
 
 type TransactionListParams struct {
-	OrganizationID string           `query:"organization_id,required" format:"uuid" json:"-"`
+	OrganizationID string           `query:"organization_id" api:"required" format:"uuid" json:"-"`
 	Page           param.Opt[int64] `query:"page,omitzero" json:"-"`
 	PerPage        param.Opt[int64] `query:"per_page,omitzero" json:"-"`
 	paramObj

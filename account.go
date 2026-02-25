@@ -128,21 +128,21 @@ func (r *AccountService) Withdraw(ctx context.Context, id string, body AccountWi
 }
 
 type Account struct {
-	ID            string `json:"id,required" format:"uuid"`
-	AccountNumber string `json:"account_number,required"`
+	ID            string `json:"id" api:"required" format:"uuid"`
+	AccountNumber string `json:"account_number" api:"required"`
 	// Any of "checking", "saving".
-	AccountType AccountAccountType `json:"account_type,required"`
-	Balance     string             `json:"balance,required"`
-	Currency    string             `json:"currency,required"`
-	Environment string             `json:"environment,required"`
+	AccountType AccountAccountType `json:"account_type" api:"required"`
+	Balance     string             `json:"balance" api:"required"`
+	Currency    string             `json:"currency" api:"required"`
+	Environment string             `json:"environment" api:"required"`
 	// Any of "active", "suspended", "closed".
-	Status         AccountStatus `json:"status,required"`
-	UserID         string        `json:"user_id,required" format:"uuid"`
-	AdminUserID    string        `json:"admin_user_id,nullable" format:"uuid"`
-	CreatedAt      time.Time     `json:"created_at,nullable" format:"date-time"`
-	OrganizationID string        `json:"organization_id,nullable" format:"uuid"`
-	UpdatedAt      time.Time     `json:"updated_at,nullable" format:"date-time"`
-	UserRole       string        `json:"user_role,nullable"`
+	Status         AccountStatus `json:"status" api:"required"`
+	UserID         string        `json:"user_id" api:"required" format:"uuid"`
+	AdminUserID    string        `json:"admin_user_id" api:"nullable" format:"uuid"`
+	CreatedAt      time.Time     `json:"created_at" api:"nullable" format:"date-time"`
+	OrganizationID string        `json:"organization_id" api:"nullable" format:"uuid"`
+	UpdatedAt      time.Time     `json:"updated_at" api:"nullable" format:"date-time"`
+	UserRole       string        `json:"user_role" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID             respjson.Field
@@ -185,8 +185,8 @@ const (
 )
 
 type AccountDepositResponse struct {
-	Account     Account            `json:"account,required"`
-	Transaction shared.Transaction `json:"transaction,required"`
+	Account     Account            `json:"account" api:"required"`
+	Transaction shared.Transaction `json:"transaction" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Account     respjson.Field
@@ -203,9 +203,9 @@ func (r *AccountDepositResponse) UnmarshalJSON(data []byte) error {
 }
 
 type AccountTransferResponse struct {
-	FromAccount Account            `json:"from_account,required"`
-	ToAccount   Account            `json:"to_account,required"`
-	Transaction shared.Transaction `json:"transaction,required"`
+	FromAccount Account            `json:"from_account" api:"required"`
+	ToAccount   Account            `json:"to_account" api:"required"`
+	Transaction shared.Transaction `json:"transaction" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		FromAccount respjson.Field
@@ -223,8 +223,8 @@ func (r *AccountTransferResponse) UnmarshalJSON(data []byte) error {
 }
 
 type AccountWithdrawResponse struct {
-	Account     Account            `json:"account,required"`
-	Transaction shared.Transaction `json:"transaction,required"`
+	Account     Account            `json:"account" api:"required"`
+	Transaction shared.Transaction `json:"transaction" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Account     respjson.Field
@@ -242,8 +242,8 @@ func (r *AccountWithdrawResponse) UnmarshalJSON(data []byte) error {
 
 type AccountNewParams struct {
 	// Any of "checking", "saving".
-	AccountType    AccountNewParamsAccountType `json:"account_type,omitzero,required"`
-	UserID         string                      `json:"user_id,required" format:"uuid"`
+	AccountType    AccountNewParamsAccountType `json:"account_type,omitzero" api:"required"`
+	UserID         string                      `json:"user_id" api:"required" format:"uuid"`
 	Environment    param.Opt[string]           `json:"environment,omitzero"`
 	OrganizationID param.Opt[string]           `json:"organization_id,omitzero" format:"uuid"`
 	Currency       param.Opt[string]           `json:"currency,omitzero"`
@@ -266,7 +266,7 @@ const (
 )
 
 type AccountListParams struct {
-	UserID string `query:"user_id,required" format:"uuid" json:"-"`
+	UserID string `query:"user_id" api:"required" format:"uuid" json:"-"`
 	paramObj
 }
 
@@ -279,7 +279,7 @@ func (r AccountListParams) URLQuery() (v url.Values, err error) {
 }
 
 type AccountDepositParams struct {
-	Amount      string            `json:"amount,required"`
+	Amount      string            `json:"amount" api:"required"`
 	Description param.Opt[string] `json:"description,omitzero"`
 	paramObj
 }
@@ -293,8 +293,8 @@ func (r *AccountDepositParams) UnmarshalJSON(data []byte) error {
 }
 
 type AccountTransferParams struct {
-	Amount      string            `json:"amount,required"`
-	ToAccountID string            `json:"to_account_id,required" format:"uuid"`
+	Amount      string            `json:"amount" api:"required"`
+	ToAccountID string            `json:"to_account_id" api:"required" format:"uuid"`
 	Description param.Opt[string] `json:"description,omitzero"`
 	paramObj
 }
@@ -330,7 +330,7 @@ const (
 )
 
 type AccountWithdrawParams struct {
-	Amount      string            `json:"amount,required"`
+	Amount      string            `json:"amount" api:"required"`
 	Description param.Opt[string] `json:"description,omitzero"`
 	paramObj
 }
