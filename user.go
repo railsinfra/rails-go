@@ -46,8 +46,8 @@ func (r *UserService) New(ctx context.Context, params UserNewParams, opts ...opt
 }
 
 type UserNewResponse struct {
-	Status string `json:"status,required"`
-	UserID string `json:"user_id,required" format:"uuid"`
+	Status string `json:"status" api:"required"`
+	UserID string `json:"user_id" api:"required" format:"uuid"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Status      respjson.Field
@@ -64,12 +64,12 @@ func (r *UserNewResponse) UnmarshalJSON(data []byte) error {
 }
 
 type UserNewParams struct {
-	Email     string `json:"email,required" format:"email"`
-	FirstName string `json:"first_name,required"`
-	LastName  string `json:"last_name,required"`
-	Password  string `json:"password,required" format:"password"`
+	Email     string `json:"email" api:"required" format:"email"`
+	FirstName string `json:"first_name" api:"required"`
+	LastName  string `json:"last_name" api:"required"`
+	Password  string `json:"password" api:"required" format:"password"`
 	// Any of "sandbox", "production".
-	XEnvironment UserNewParamsXEnvironment `header:"X-Environment,omitzero,required" json:"-"`
+	XEnvironment UserNewParamsXEnvironment `header:"X-Environment,omitzero" api:"required" json:"-"`
 	paramObj
 }
 
