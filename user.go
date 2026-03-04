@@ -15,6 +15,8 @@ import (
 	"github.com/stainless-sdks/rails-go/packages/respjson"
 )
 
+// Users
+//
 // UserService contains methods and other services that help with interacting with
 // the rails API.
 //

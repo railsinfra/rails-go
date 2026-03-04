@@ -20,6 +20,8 @@ import (
 	"github.com/stainless-sdks/rails-go/shared"
 )
 
+// Transactions
+//
 // TransactionService contains methods and other services that help with
 // interacting with the rails API.
 //
