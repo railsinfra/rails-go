@@ -44,7 +44,7 @@ func (r *UserService) New(ctx context.Context, params UserNewParams, opts ...opt
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/users"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
-	return
+	return res, err
 }
 
 type UserNewResponse struct {
