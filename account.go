@@ -46,7 +46,7 @@ func (r *AccountService) New(ctx context.Context, body AccountNewParams, opts ..
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/accounts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Retrieve account
@@ -54,11 +54,11 @@ func (r *AccountService) Get(ctx context.Context, id string, opts ...option.Requ
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // List accounts
@@ -66,7 +66,7 @@ func (r *AccountService) List(ctx context.Context, query AccountListParams, opts
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/accounts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // Close account
@@ -74,11 +74,11 @@ func (r *AccountService) Close(ctx context.Context, id string, opts ...option.Re
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Deposit into account
@@ -86,11 +86,11 @@ func (r *AccountService) Deposit(ctx context.Context, id string, body AccountDep
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/deposit", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Transfer between accounts
@@ -98,11 +98,11 @@ func (r *AccountService) Transfer(ctx context.Context, id string, body AccountTr
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/transfer", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Update account status
@@ -110,11 +110,11 @@ func (r *AccountService) UpdateStatus(ctx context.Context, id string, body Accou
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Withdraw from account
@@ -122,11 +122,11 @@ func (r *AccountService) Withdraw(ctx context.Context, id string, body AccountWi
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/withdraw", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type Account struct {
