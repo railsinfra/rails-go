@@ -38,7 +38,7 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.Users.New(context.Background(), rails.UserNewParams{
+	_, _ = client.Users.New(context.Background(), rails.UserNewParams{
 		Email:        "jane@example.com",
 		FirstName:    "Jane",
 		LastName:     "Doe",
