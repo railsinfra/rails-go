@@ -49,17 +49,13 @@ func main() {
 		option.WithAPIKey("My API Key"),    // defaults to os.LookupEnv("RAILS_API_KEY")
 		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
 	)
-	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
-		Email:        "jane@example.com",
-		FirstName:    "Jane",
-		LastName:     "Doe",
-		Password:     "your-secure-password",
-		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
+	account, err := client.Accounts.New(context.TODO(), rails.AccountNewParams{
+		AccountType: rails.AccountNewParamsAccountTypeChecking,
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", user.UserID)
+	fmt.Printf("%+v\n", account.ID)
 }
 
 ```
@@ -265,7 +261,7 @@ client := rails.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Users.New(context.TODO(), ...,
+client.Accounts.New(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -296,12 +292,8 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Users.New(context.TODO(), rails.UserNewParams{
-	Email:        "jane@example.com",
-	FirstName:    "Jane",
-	LastName:     "Doe",
-	Password:     "your-secure-password",
-	XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
+_, err := client.Accounts.New(context.TODO(), rails.AccountNewParams{
+	AccountType: rails.AccountNewParamsAccountTypeChecking,
 })
 if err != nil {
 	var apierr *rails.Error
@@ -309,7 +301,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/api/v1/users": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/api/v1/accounts": 400 Bad Request { ... }
 }
 ```
 
@@ -327,14 +319,10 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Users.New(
+client.Accounts.New(
 	ctx,
-	rails.UserNewParams{
-		Email:        "jane@example.com",
-		FirstName:    "Jane",
-		LastName:     "Doe",
-		Password:     "your-secure-password",
-		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
+	rails.AccountNewParams{
+		AccountType: rails.AccountNewParamsAccountTypeChecking,
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -369,14 +357,10 @@ client := rails.NewClient(
 )
 
 // Override per-request:
-client.Users.New(
+client.Accounts.New(
 	context.TODO(),
-	rails.UserNewParams{
-		Email:        "jane@example.com",
-		FirstName:    "Jane",
-		LastName:     "Doe",
-		Password:     "your-secure-password",
-		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
+	rails.AccountNewParams{
+		AccountType: rails.AccountNewParamsAccountTypeChecking,
 	},
 	option.WithMaxRetries(5),
 )
@@ -390,21 +374,17 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-user, err := client.Users.New(
+account, err := client.Accounts.New(
 	context.TODO(),
-	rails.UserNewParams{
-		Email:        "jane@example.com",
-		FirstName:    "Jane",
-		LastName:     "Doe",
-		Password:     "your-secure-password",
-		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
+	rails.AccountNewParams{
+		AccountType: rails.AccountNewParamsAccountTypeChecking,
 	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", user)
+fmt.Printf("%+v\n", account)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
