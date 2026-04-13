@@ -25,15 +25,11 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
-		Email:        "jane@example.com",
-		FirstName:    "Jane",
-		LastName:     "Doe",
-		Password:     "your-secure-password",
-		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
+	account, err := client.Accounts.New(context.TODO(), rails.AccountNewParams{
+		AccountType: rails.AccountNewParamsAccountTypeChecking,
 	})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", user.UserID)
+	t.Logf("%+v\n", account.ID)
 }
