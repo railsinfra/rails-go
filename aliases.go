@@ -3,8 +3,8 @@
 package rails
 
 import (
-	"github.com/stainless-sdks/rails-go/internal/apierror"
-	"github.com/stainless-sdks/rails-go/packages/param"
+	"github.com/railsinfra/rails-go/internal/apierror"
+	"github.com/railsinfra/rails-go/packages/param"
 )
 
 // aliased to make [param.APIUnion] private when embedding

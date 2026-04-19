@@ -1,3 +1,9 @@
+# Contributing
+
+Thank you for helping improve this SDK. Report security issues via [`SECURITY.md`](SECURITY.md) (not public issues). Participation is covered by [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
+Most of the client surface is regenerated from an internal OpenAPI/Stainless configuration. Coordinate larger changes with maintainers to avoid conflicts with the next regeneration.
+
 ## Setting up the environment
 
 To set up the repository, run:
@@ -41,7 +47,7 @@ To use a local version of this library from source in another project, edit the 
 directive. This can be done through the CLI with the following:
 
 ```sh
-$ go mod edit -replace github.com/stainless-sdks/rails-go=/path/to/rails-go
+$ go mod edit -replace github.com/railsinfra/rails-go=/path/to/rails-go
 ```
 
 ## Running tests

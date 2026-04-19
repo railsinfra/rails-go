@@ -2,7 +2,7 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/rails-go/internal/encoding/json/sentinel"
+	"github.com/railsinfra/rails-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 
