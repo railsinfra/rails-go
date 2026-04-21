@@ -5,9 +5,9 @@ package shared
 import (
 	"time"
 
-	"github.com/stainless-sdks/rails-go/internal/apijson"
-	"github.com/stainless-sdks/rails-go/packages/param"
-	"github.com/stainless-sdks/rails-go/packages/respjson"
+	"github.com/railsinfra/rails-go/internal/apijson"
+	"github.com/railsinfra/rails-go/packages/param"
+	"github.com/railsinfra/rails-go/packages/respjson"
 )
 
 // aliased to make [param.APIUnion] private when embedding

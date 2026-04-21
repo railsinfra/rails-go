@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/rails-go"
-	"github.com/stainless-sdks/rails-go/internal"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go"
+	"github.com/railsinfra/rails-go/internal"
+	"github.com/railsinfra/rails-go/option"
 )
 
 type closureTransport struct {
