@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/stainless-sdks/rails-go/internal/apijson"
-	"github.com/stainless-sdks/rails-go/internal/requestconfig"
-	"github.com/stainless-sdks/rails-go/option"
-	"github.com/stainless-sdks/rails-go/packages/param"
-	"github.com/stainless-sdks/rails-go/packages/respjson"
+	"github.com/railsinfra/rails-go/internal/apijson"
+	"github.com/railsinfra/rails-go/internal/requestconfig"
+	"github.com/railsinfra/rails-go/option"
+	"github.com/railsinfra/rails-go/packages/param"
+	"github.com/railsinfra/rails-go/packages/respjson"
 )
 
 // Users

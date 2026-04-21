@@ -3,9 +3,9 @@
 package rails
 
 import (
-	"github.com/stainless-sdks/rails-go/internal/apierror"
-	"github.com/stainless-sdks/rails-go/packages/param"
-	"github.com/stainless-sdks/rails-go/shared"
+	"github.com/railsinfra/rails-go/internal/apierror"
+	"github.com/railsinfra/rails-go/packages/param"
+	"github.com/railsinfra/rails-go/shared"
 )
 
 // aliased to make [param.APIUnion] private when embedding

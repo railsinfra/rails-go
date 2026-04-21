@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"net/http/httputil"
 
-	"github.com/stainless-sdks/rails-go/internal/apijson"
-	"github.com/stainless-sdks/rails-go/packages/respjson"
+	"github.com/railsinfra/rails-go/internal/apijson"
+	"github.com/railsinfra/rails-go/packages/respjson"
 )
 
 // Error represents an error that originates from the API, i.e. when a request is
