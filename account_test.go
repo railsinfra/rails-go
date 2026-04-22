@@ -3,20 +3,18 @@
 package rails_test
 
 import (
-	"bytes"
 	"context"
 	"errors"
-	"io"
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/rails-go"
-	"github.com/stainless-sdks/rails-go/internal/testutil"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go"
+	"github.com/railsinfra/rails-go/internal/testutil"
+	"github.com/railsinfra/rails-go/option"
 )
 
-func TestPetNewWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
+func TestAccountNewWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -28,21 +26,12 @@ func TestPetNewWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Pet.New(context.TODO(), rails.PetNewParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-			ID:        rails.Int(10),
-			Category: rails.PetCategoryParam{
-				ID:   rails.Int(1),
-				Name: rails.String("Dogs"),
-			},
-			Status: rails.PetStatusAvailable,
-			Tags: []rails.PetTagParam{{
-				ID:   rails.Int(0),
-				Name: rails.String("name"),
-			}},
-		},
+	_, err := client.Accounts.New(context.TODO(), rails.AccountNewParams{
+		AccountType:    rails.AccountNewParamsAccountTypeChecking,
+		UserID:         "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		Currency:       rails.String("currency"),
+		Environment:    rails.String("environment"),
+		OrganizationID: rails.String("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 	})
 	if err != nil {
 		var apierr *rails.Error
@@ -53,8 +42,8 @@ func TestPetNewWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPetGet(t *testing.T) {
-	t.Skip("Prism tests are disabled")
+func TestAccountGet(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -66,7 +55,7 @@ func TestPetGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Pet.Get(context.TODO(), 0)
+	_, err := client.Accounts.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
 		var apierr *rails.Error
 		if errors.As(err, &apierr) {
@@ -76,8 +65,8 @@ func TestPetGet(t *testing.T) {
 	}
 }
 
-func TestPetUpdateWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
+func TestAccountList(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -89,21 +78,8 @@ func TestPetUpdateWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Pet.Update(context.TODO(), rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-			ID:        rails.Int(10),
-			Category: rails.PetCategoryParam{
-				ID:   rails.Int(1),
-				Name: rails.String("Dogs"),
-			},
-			Status: rails.PetStatusAvailable,
-			Tags: []rails.PetTagParam{{
-				ID:   rails.Int(0),
-				Name: rails.String("name"),
-			}},
-		},
+	_, err := client.Accounts.List(context.TODO(), rails.AccountListParams{
+		UserID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 	})
 	if err != nil {
 		var apierr *rails.Error
@@ -114,8 +90,8 @@ func TestPetUpdateWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPetDelete(t *testing.T) {
-	t.Skip("Prism tests are disabled")
+func TestAccountClose(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -127,7 +103,7 @@ func TestPetDelete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.Pet.Delete(context.TODO(), 0)
+	_, err := client.Accounts.Close(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 	if err != nil {
 		var apierr *rails.Error
 		if errors.As(err, &apierr) {
@@ -137,8 +113,8 @@ func TestPetDelete(t *testing.T) {
 	}
 }
 
-func TestPetFindByStatusWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
+func TestAccountDepositWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -150,62 +126,12 @@ func TestPetFindByStatusWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Pet.FindByStatus(context.TODO(), rails.PetFindByStatusParams{
-		Status: rails.PetFindByStatusParamsStatusAvailable,
-	})
-	if err != nil {
-		var apierr *rails.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestPetFindByTagsWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := rails.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	_, err := client.Pet.FindByTags(context.TODO(), rails.PetFindByTagsParams{
-		Tags: []string{"string"},
-	})
-	if err != nil {
-		var apierr *rails.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestPetUpdateWithFormDataWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := rails.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-	)
-	err := client.Pet.UpdateWithFormData(
+	_, err := client.Accounts.Deposit(
 		context.TODO(),
-		0,
-		rails.PetUpdateWithFormDataParams{
-			Name:   rails.String("name"),
-			Status: rails.String("status"),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.AccountDepositParams{
+			Amount:      "amount",
+			Description: rails.String("description"),
 		},
 	)
 	if err != nil {
@@ -217,8 +143,8 @@ func TestPetUpdateWithFormDataWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPetUploadImageWithOptionalParams(t *testing.T) {
-	t.Skip("Prism tests are disabled")
+func TestAccountTransferWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -230,12 +156,72 @@ func TestPetUploadImageWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Pet.UploadImage(
+	_, err := client.Accounts.Transfer(
 		context.TODO(),
-		0,
-		io.Reader(bytes.NewBuffer([]byte("some file contents"))),
-		rails.PetUploadImageParams{
-			AdditionalMetadata: rails.String("additionalMetadata"),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.AccountTransferParams{
+			Amount:      "amount",
+			ToAccountID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			Description: rails.String("description"),
+		},
+	)
+	if err != nil {
+		var apierr *rails.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestAccountUpdateStatusWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := rails.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Accounts.UpdateStatus(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.AccountUpdateStatusParams{
+			Status: rails.AccountUpdateStatusParamsStatusActive,
+		},
+	)
+	if err != nil {
+		var apierr *rails.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestAccountWithdrawWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := rails.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Accounts.Withdraw(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.AccountWithdrawParams{
+			Amount:      "amount",
+			Description: rails.String("description"),
 		},
 	)
 	if err != nil {

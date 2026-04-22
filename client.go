@@ -8,8 +8,8 @@ import (
 	"os"
 	"slices"
 
-	"github.com/stainless-sdks/rails-go/internal/requestconfig"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go/internal/requestconfig"
+	"github.com/railsinfra/rails-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with
@@ -17,15 +17,18 @@ import (
 // and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
-	Pet     PetService
-	Store   StoreService
-	User    UserService
+	// Users
+	Users UserService
+	// Accounts
+	Accounts AccountService
+	// Transactions
+	Transactions TransactionService
 }
 
 // DefaultClientOptions read from the environment (RAILS_API_KEY, RAILS_BASE_URL).
 // This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
-	defaults := []option.RequestOption{option.WithEnvironmentProduction()}
+	defaults := []option.RequestOption{option.WithEnvironmentStaging()}
 	if o, ok := os.LookupEnv("RAILS_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
@@ -44,9 +47,9 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
-	r.Pet = NewPetService(opts...)
-	r.Store = NewStoreService(opts...)
-	r.User = NewUserService(opts...)
+	r.Users = NewUserService(opts...)
+	r.Accounts = NewAccountService(opts...)
+	r.Transactions = NewTransactionService(opts...)
 
 	return
 }

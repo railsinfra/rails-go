@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go"><img src="https://pkg.go.dev/badge/github.com/stainless-sdks/rails-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/railsinfra/rails-go"><img src="https://pkg.go.dev/badge/github.com/railsinfra/rails-go.svg" alt="Go Reference"></a>
 
 <!-- x-release-please-end -->
 
@@ -13,17 +13,25 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
+<!-- x-release-please-start-version -->
+
 ```go
 import (
-	"github.com/stainless-sdks/rails-go" // imported as rails
+	"github.com/railsinfra/rails-go" // imported as rails
 )
 ```
 
+<!-- x-release-please-end -->
+
 Or to pin the version:
 
+<!-- x-release-please-start-version -->
+
 ```sh
-go get -u 'github.com/stainless-sdks/rails-go@v0.0.1'
+go get -u 'github.com/railsinfra/rails-go@v0.2.0'
 ```
+
+<!-- x-release-please-end -->
 
 ## Requirements
 
@@ -40,24 +48,26 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stainless-sdks/rails-go"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go"
+	"github.com/railsinfra/rails-go/option"
 )
 
 func main() {
 	client := rails.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("RAILS_API_KEY")
+		option.WithAPIKey("My API Key"),    // defaults to os.LookupEnv("RAILS_API_KEY")
+		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
 	)
-	pet, err := client.Pet.Update(context.TODO(), rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", pet.ID)
+	fmt.Printf("%+v\n", user.UserID)
 }
 
 ```
@@ -67,7 +77,7 @@ func main() {
 The rails library uses the [`omitzero`](https://tip.golang.org/doc/go1.24#encodingjsonpkgencodingjson)
 semantics from the Go 1.24+ `encoding/json` release for request fields.
 
-Required primitive fields (`int64`, `string`, etc.) feature the tag <code>\`json:"...,required"\`</code>. These
+Required primitive fields (`int64`, `string`, etc.) feature the tag <code>\`api:"required"\`</code>. These
 fields are always serialized, even their zero values.
 
 Optional primitive types are wrapped in a `param.Opt[T]`. These fields can be set with the provided constructors, `rails.String(string)`, `rails.Int(int64)`, etc.
@@ -263,7 +273,7 @@ client := rails.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Pet.Update(context.TODO(), ...,
+client.Users.New(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -273,7 +283,7 @@ client.Pet.Update(context.TODO(), ...,
 
 The request option `option.WithDebugLog(nil)` may be helpful while debugging.
 
-See the [full list of request options](https://pkg.go.dev/github.com/stainless-sdks/rails-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/railsinfra/rails-go/option).
 
 ### Pagination
 
@@ -294,11 +304,12 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Pet.Update(context.TODO(), rails.PetUpdateParams{
-	Pet: rails.PetParam{
-		Name:      "doggie",
-		PhotoURLs: []string{"string"},
-	},
+_, err := client.Users.New(context.TODO(), rails.UserNewParams{
+	Email:        "jane@example.com",
+	FirstName:    "Jane",
+	LastName:     "Doe",
+	Password:     "your-secure-password",
+	XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 })
 if err != nil {
 	var apierr *rails.Error
@@ -306,7 +317,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/pet": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/api/v1/users": 400 Bad Request { ... }
 }
 ```
 
@@ -324,13 +335,14 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Pet.Update(
+client.Users.New(
 	ctx,
-	rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	rails.UserNewParams{
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -365,13 +377,14 @@ client := rails.NewClient(
 )
 
 // Override per-request:
-client.Pet.Update(
+client.Users.New(
 	context.TODO(),
-	rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	rails.UserNewParams{
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithMaxRetries(5),
 )
@@ -385,20 +398,21 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-pet, err := client.Pet.Update(
+user, err := client.Users.New(
 	context.TODO(),
-	rails.PetUpdateParams{
-		Pet: rails.PetParam{
-			Name:      "doggie",
-			PhotoURLs: []string{"string"},
-		},
+	rails.UserNewParams{
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
+		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", pet)
+fmt.Printf("%+v\n", user)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
@@ -499,7 +513,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/rails-go/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/railsinfra/rails-go/issues) with questions, bugs, or suggestions.
 
 ## Contributing
 
