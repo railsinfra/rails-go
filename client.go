@@ -28,7 +28,7 @@ type Client struct {
 // DefaultClientOptions read from the environment (RAILS_API_KEY, RAILS_BASE_URL).
 // This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
-	defaults := []option.RequestOption{option.WithEnvironmentStaging()}
+	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentStaging()}
 	if o, ok := os.LookupEnv("RAILS_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
