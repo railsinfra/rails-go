@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 (2026-05-01)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/railsinfra/rails-go/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **go:** add default http client with timeout ([614e9c7](https://github.com/railsinfra/rails-go/commit/614e9c7ec7d219459ce08653ae6f31cfb9238d91))
+* support setting headers via env ([29aa10c](https://github.com/railsinfra/rails-go/commit/29aa10cc2d87a861afc1a888fe828ffc68fbe175))
+
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([e749210](https://github.com/railsinfra/rails-go/commit/e7492106852c6a273e49036adaed3e398474e2aa))
+* **internal:** more robust bootstrap script ([42e2ff9](https://github.com/railsinfra/rails-go/commit/42e2ff9e65bb275bd529a337869956f438d16392))
+
 ## 0.2.0 (2026-04-21)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/railsinfra/rails-go/compare/v0.1.0...v0.2.0)
