@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.3.0 (2026-05-11)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/railsinfra/rails-go/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** manual updates ([0bf3b75](https://github.com/railsinfra/rails-go/commit/0bf3b75717eaa476e043c7ae8e25d79ffd69b246))
+* **api:** manual updates ([54dcbf9](https://github.com/railsinfra/rails-go/commit/54dcbf9a83ca3d6be84ae6fe69ccdf5c6ce093be))
+* **go:** add default http client with timeout ([614e9c7](https://github.com/railsinfra/rails-go/commit/614e9c7ec7d219459ce08653ae6f31cfb9238d91))
+* support setting headers via env ([29aa10c](https://github.com/railsinfra/rails-go/commit/29aa10cc2d87a861afc1a888fe828ffc68fbe175))
+
+
+### Bug Fixes
+
+* **go:** avoid panic when http.DefaultTransport is wrapped ([fcb599c](https://github.com/railsinfra/rails-go/commit/fcb599c0340d2250f23c41ceea41814d7e37d91d))
+
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([e749210](https://github.com/railsinfra/rails-go/commit/e7492106852c6a273e49036adaed3e398474e2aa))
+* **internal:** more robust bootstrap script ([42e2ff9](https://github.com/railsinfra/rails-go/commit/42e2ff9e65bb275bd529a337869956f438d16392))
+* redact api-key headers in debug logs ([aa4e2f4](https://github.com/railsinfra/rails-go/commit/aa4e2f4712c417b36e8af1458fcfeb1b436824f0))
+
 ## 0.2.0 (2026-04-21)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/railsinfra/rails-go/compare/v0.1.0...v0.2.0)
