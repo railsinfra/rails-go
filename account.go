@@ -244,11 +244,12 @@ func (r *AccountWithdrawResponse) UnmarshalJSON(data []byte) error {
 
 type AccountNewParams struct {
 	// Any of "checking", "saving".
-	AccountType    AccountNewParamsAccountType `json:"account_type,omitzero" api:"required"`
-	UserID         string                      `json:"user_id" api:"required" format:"uuid"`
-	Environment    param.Opt[string]           `json:"environment,omitzero"`
-	OrganizationID param.Opt[string]           `json:"organization_id,omitzero" format:"uuid"`
-	Currency       param.Opt[string]           `json:"currency,omitzero"`
+	AccountType AccountNewParamsAccountType `json:"account_type,omitzero" api:"required"`
+	// Three-letter uppercase ISO currency code, for example USD or ZAR.
+	Currency       string            `json:"currency" api:"required"`
+	UserID         string            `json:"user_id" api:"required" format:"uuid"`
+	Environment    param.Opt[string] `json:"environment,omitzero"`
+	OrganizationID param.Opt[string] `json:"organization_id,omitzero" format:"uuid"`
 	paramObj
 }
 

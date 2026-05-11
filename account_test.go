@@ -28,8 +28,8 @@ func TestAccountNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Accounts.New(context.TODO(), rails.AccountNewParams{
 		AccountType:    rails.AccountNewParamsAccountTypeChecking,
+		Currency:       "SEW",
 		UserID:         "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		Currency:       rails.String("currency"),
 		Environment:    rails.String("environment"),
 		OrganizationID: rails.String("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 	})
