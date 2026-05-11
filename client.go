@@ -24,6 +24,8 @@ type Client struct {
 	Accounts AccountService
 	// Transactions
 	Transactions TransactionService
+	// Audit events
+	AuditEvents AuditEventService
 }
 
 // DefaultClientOptions read from the environment (RAILS_API_KEY, RAILS_BASE_URL).
@@ -59,6 +61,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Users = NewUserService(opts...)
 	r.Accounts = NewAccountService(opts...)
 	r.Transactions = NewTransactionService(opts...)
+	r.AuditEvents = NewAuditEventService(opts...)
 
 	return
 }
