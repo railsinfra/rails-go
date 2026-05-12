@@ -19,6 +19,7 @@ type Client struct {
 	Options      []option.RequestOption
 	Users        UserService
 	Accounts     AccountService
+	Audit        AuditService
 	Transactions TransactionService
 }
 
@@ -46,6 +47,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r.Users = NewUserService(opts...)
 	r.Accounts = NewAccountService(opts...)
+	r.Audit = NewAuditService(opts...)
 	r.Transactions = NewTransactionService(opts...)
 
 	return
