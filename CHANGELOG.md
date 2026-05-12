@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 (2026-05-12)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/railsinfra/rails-go/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **audit:** add audit event list resource ([48290f9](https://github.com/railsinfra/rails-go/commit/48290f92c82257d22488b35b639974b917ea4b82))
+
+
+### Bug Fixes
+
+* **go:** add prism mock helper for tests ([cbc0521](https://github.com/railsinfra/rails-go/commit/cbc05210db56ee41a0ac201589740af6d0987466))
+
 ## 0.3.0 (2026-05-11)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/railsinfra/rails-go/compare/v0.2.0...v0.3.0)
