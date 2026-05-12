@@ -9,37 +9,18 @@ import (
 	"slices"
 	"time"
 
-	"github.com/stainless-sdks/rails-go/internal/apijson"
-	"github.com/stainless-sdks/rails-go/internal/apiquery"
-	"github.com/stainless-sdks/rails-go/internal/requestconfig"
-	"github.com/stainless-sdks/rails-go/option"
-	"github.com/stainless-sdks/rails-go/packages/param"
-	"github.com/stainless-sdks/rails-go/packages/respjson"
+	"github.com/railsinfra/rails-go/internal/apijson"
+	"github.com/railsinfra/rails-go/internal/apiquery"
+	"github.com/railsinfra/rails-go/internal/requestconfig"
+	"github.com/railsinfra/rails-go/option"
+	"github.com/railsinfra/rails-go/packages/param"
+	"github.com/railsinfra/rails-go/packages/respjson"
 )
 
-// AuditService contains methods and other services that help with interacting
-// with the rails API.
+// Audit events
 //
-// Note, unlike clients, this service does not read variables from the environment
-// automatically. You should not instantiate this service directly, and instead use
-// the [NewAuditService] method instead.
-type AuditService struct {
-	Options []option.RequestOption
-	Events  AuditEventService
-}
-
-// NewAuditService generates a new service that applies the given options to each
-// request. These options are applied after the parent client's options (if there
-// is one), and before any request-specific options.
-func NewAuditService(opts ...option.RequestOption) (r AuditService) {
-	r = AuditService{}
-	r.Options = opts
-	r.Events = NewAuditEventService(opts...)
-	return
-}
-
-// AuditEventService contains methods and other services that help with
-// interacting with the rails API.
+// AuditEventService contains methods and other services that help with interacting
+// with the rails API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -57,17 +38,17 @@ func NewAuditEventService(opts ...option.RequestOption) (r AuditEventService) {
 	return
 }
 
-// List audit events for the authenticated business.
+// List audit events
 func (r *AuditEventService) List(ctx context.Context, query AuditEventListParams, opts ...option.RequestOption) (res *AuditEventListResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/audit/events"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type AuditEventListResponse struct {
-	Data       []AuditEventListResponseData     `json:"data,required"`
-	Pagination AuditEventListResponsePagination `json:"pagination,required"`
+	Data       []AuditEventListResponseData     `json:"data" api:"required"`
+	Pagination AuditEventListResponsePagination `json:"pagination" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -84,26 +65,38 @@ func (r *AuditEventListResponse) UnmarshalJSON(data []byte) error {
 }
 
 type AuditEventListResponseData struct {
-	ID             string                            `json:"id,required" format:"uuid"`
-	Action         string                            `json:"action,required"`
-	Actor          AuditEventListResponseDataActor   `json:"actor,required"`
-	CreatedAt      time.Time                         `json:"created_at,required" format:"date-time"`
-	Environment    string                            `json:"environment,required"`
-	Metadata       map[string]any                    `json:"metadata,required"`
-	OccurredAt     time.Time                         `json:"occurred_at,required" format:"date-time"`
-	OrganizationID string                            `json:"organization_id,required" format:"uuid"`
-	Outcome        string                            `json:"outcome,required"`
-	Request        AuditEventListResponseDataRequest `json:"request,required"`
-	SchemaVersion  int64                             `json:"schema_version,required"`
-	SourceService  string                            `json:"source_service,required"`
-	Target         AuditEventListResponseDataTarget  `json:"target,required"`
-	CorrelationID  string                            `json:"correlation_id,nullable"`
-	Reason         string                            `json:"reason,nullable"`
+	ID string `json:"id" api:"required" format:"uuid"`
+	// Any of "users.business.register", "users.auth.login", "users.auth.refresh",
+	// "users.auth.revoke", "users.password_reset.request",
+	// "users.password_reset.complete", "users.beta.apply", "users.api_key.create",
+	// "users.api_key.revoke", "accounts.account.create",
+	// "accounts.account.update_status", "accounts.account.close",
+	// "accounts.money.deposit", "accounts.money.withdraw", "accounts.money.transfer",
+	// "ledger.transaction.post".
+	Action        string                          `json:"action" api:"required"`
+	Actor         AuditEventListResponseDataActor `json:"actor" api:"required"`
+	CorrelationID string                          `json:"correlation_id" api:"required"`
+	CreatedAt     time.Time                       `json:"created_at" api:"required" format:"date-time"`
+	// Any of "sandbox", "production".
+	Environment    string            `json:"environment" api:"required"`
+	Metadata       map[string]string `json:"metadata" api:"required"`
+	OccurredAt     time.Time         `json:"occurred_at" api:"required" format:"date-time"`
+	OrganizationID string            `json:"organization_id" api:"required" format:"uuid"`
+	// Any of "success", "client_error", "server_error".
+	Outcome string                            `json:"outcome" api:"required"`
+	Request AuditEventListResponseDataRequest `json:"request" api:"required"`
+	// Any of 1.
+	SchemaVersion int64 `json:"schema_version" api:"required"`
+	// Any of "users", "accounts", "ledger".
+	SourceService string                           `json:"source_service" api:"required"`
+	Target        AuditEventListResponseDataTarget `json:"target" api:"required"`
+	Reason        string                           `json:"reason" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID             respjson.Field
 		Action         respjson.Field
 		Actor          respjson.Field
+		CorrelationID  respjson.Field
 		CreatedAt      respjson.Field
 		Environment    respjson.Field
 		Metadata       respjson.Field
@@ -114,7 +107,6 @@ type AuditEventListResponseData struct {
 		SchemaVersion  respjson.Field
 		SourceService  respjson.Field
 		Target         respjson.Field
-		CorrelationID  respjson.Field
 		Reason         respjson.Field
 		ExtraFields    map[string]respjson.Field
 		raw            string
@@ -128,14 +120,15 @@ func (r *AuditEventListResponseData) UnmarshalJSON(data []byte) error {
 }
 
 type AuditEventListResponseDataActor struct {
-	ID    string   `json:"id,required"`
+	ID string `json:"id" api:"required"`
+	// Any of "user", "api_key", "internal_service", "anonymous".
+	Type  string   `json:"type" api:"required"`
 	Roles []string `json:"roles"`
-	Type  string   `json:"type,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
-		Roles       respjson.Field
 		Type        respjson.Field
+		Roles       respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -148,17 +141,17 @@ func (r *AuditEventListResponseDataActor) UnmarshalJSON(data []byte) error {
 }
 
 type AuditEventListResponseDataRequest struct {
-	ID        string `json:"id,required"`
+	ID        string `json:"id" api:"required"`
+	Method    string `json:"method" api:"required"`
+	Path      string `json:"path" api:"required"`
 	IP        string `json:"ip"`
-	Method    string `json:"method,required"`
-	Path      string `json:"path,required"`
 	UserAgent string `json:"user_agent"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
-		IP          respjson.Field
 		Method      respjson.Field
 		Path        respjson.Field
+		IP          respjson.Field
 		UserAgent   respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
@@ -172,8 +165,8 @@ func (r *AuditEventListResponseDataRequest) UnmarshalJSON(data []byte) error {
 }
 
 type AuditEventListResponseDataTarget struct {
-	ID   string `json:"id,required"`
-	Type string `json:"type,required"`
+	ID   string `json:"id" api:"required"`
+	Type string `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -190,10 +183,10 @@ func (r *AuditEventListResponseDataTarget) UnmarshalJSON(data []byte) error {
 }
 
 type AuditEventListResponsePagination struct {
-	Page       int64 `json:"page,required"`
-	PerPage    int64 `json:"per_page,required"`
-	TotalCount int64 `json:"total_count,required"`
-	TotalPages int64 `json:"total_pages,required"`
+	Page       int64 `json:"page" api:"required"`
+	PerPage    int64 `json:"per_page" api:"required"`
+	TotalCount int64 `json:"total_count" api:"required"`
+	TotalPages int64 `json:"total_pages" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Page        respjson.Field
@@ -212,15 +205,19 @@ func (r *AuditEventListResponsePagination) UnmarshalJSON(data []byte) error {
 }
 
 type AuditEventListParams struct {
-	Action      param.Opt[string]    `query:"action,omitzero" json:"-"`
-	Environment param.Opt[string]    `query:"environment,omitzero" json:"-"`
-	From        param.Opt[time.Time] `query:"from,omitzero" format:"date-time" json:"-"`
-	Outcome     param.Opt[string]    `query:"outcome,omitzero" json:"-"`
-	Page        param.Opt[int64]     `query:"page,omitzero" json:"-"`
-	PerPage     param.Opt[int64]     `query:"per_page,omitzero" json:"-"`
-	TargetID    param.Opt[string]    `query:"target_id,omitzero" json:"-"`
-	TargetType  param.Opt[string]    `query:"target_type,omitzero" json:"-"`
-	To          param.Opt[time.Time] `query:"to,omitzero" format:"date-time" json:"-"`
+	Action     param.Opt[string]    `query:"action,omitzero" json:"-"`
+	From       param.Opt[time.Time] `query:"from,omitzero" format:"date-time" json:"-"`
+	Page       param.Opt[int64]     `query:"page,omitzero" json:"-"`
+	PerPage    param.Opt[int64]     `query:"per_page,omitzero" json:"-"`
+	TargetID   param.Opt[string]    `query:"target_id,omitzero" json:"-"`
+	TargetType param.Opt[string]    `query:"target_type,omitzero" json:"-"`
+	To         param.Opt[time.Time] `query:"to,omitzero" format:"date-time" json:"-"`
+	// Environment to list audit events from. Defaults to sandbox when omitted.
+	//
+	// Any of "sandbox", "production".
+	Environment AuditEventListParamsEnvironment `query:"environment,omitzero" json:"-"`
+	// Any of "success", "client_error", "server_error".
+	Outcome AuditEventListParamsOutcome `query:"outcome,omitzero" json:"-"`
 	paramObj
 }
 
@@ -231,3 +228,19 @@ func (r AuditEventListParams) URLQuery() (v url.Values, err error) {
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
+
+// Environment to list audit events from. Defaults to sandbox when omitted.
+type AuditEventListParamsEnvironment string
+
+const (
+	AuditEventListParamsEnvironmentSandbox    AuditEventListParamsEnvironment = "sandbox"
+	AuditEventListParamsEnvironmentProduction AuditEventListParamsEnvironment = "production"
+)
+
+type AuditEventListParamsOutcome string
+
+const (
+	AuditEventListParamsOutcomeSuccess     AuditEventListParamsOutcome = "success"
+	AuditEventListParamsOutcomeClientError AuditEventListParamsOutcome = "client_error"
+	AuditEventListParamsOutcomeServerError AuditEventListParamsOutcome = "server_error"
+)

@@ -7,12 +7,13 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/rails-go"
-	"github.com/stainless-sdks/rails-go/internal/testutil"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go"
+	"github.com/railsinfra/rails-go/internal/testutil"
+	"github.com/railsinfra/rails-go/option"
 )
 
 func TestUsage(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -24,12 +25,11 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	t.Skip("Prism tests are disabled")
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {

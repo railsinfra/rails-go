@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stainless-sdks/rails-go/internal/requestconfig"
+	"github.com/railsinfra/rails-go/internal/requestconfig"
 	"github.com/tidwall/sjson"
 )
 
@@ -19,7 +19,7 @@ import (
 // which can be supplied to clients, services, and methods. You can read more about this functional
 // options pattern in our [README].
 //
-// [README]: https://pkg.go.dev/github.com/stainless-sdks/rails-go#readme-requestoptions
+// [README]: https://pkg.go.dev/github.com/railsinfra/rails-go#readme-requestoptions
 type RequestOption = requestconfig.RequestOption
 
 // WithBaseURL returns a RequestOption that sets the BaseURL for the client.
@@ -259,11 +259,18 @@ func WithRequestTimeout(dur time.Duration) RequestOption {
 	})
 }
 
+// WithEnvironmentStaging returns a RequestOption that sets the current
+// environment to be the "staging" environment. An environment specifies which base URL
+// to use by default.
+func WithEnvironmentStaging() RequestOption {
+	return requestconfig.WithDefaultBaseURL("https://rails-client-server-staging.up.railway.app/")
+}
+
 // WithEnvironmentProduction returns a RequestOption that sets the current
 // environment to be the "production" environment. An environment specifies which base URL
 // to use by default.
 func WithEnvironmentProduction() RequestOption {
-	return requestconfig.WithDefaultBaseURL("https://api.rails.com/")
+	return requestconfig.WithDefaultBaseURL("https://rails-client-server-production.up.railway.app/")
 }
 
 // WithAPIKey returns a RequestOption that sets the client setting "api_key".

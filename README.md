@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-<a href="https://pkg.go.dev/github.com/stainless-sdks/rails-go"><img src="https://pkg.go.dev/badge/github.com/stainless-sdks/rails-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/railsinfra/rails-go"><img src="https://pkg.go.dev/badge/github.com/railsinfra/rails-go.svg" alt="Go Reference"></a>
 
 <!-- x-release-please-end -->
 
@@ -13,17 +13,25 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
+<!-- x-release-please-start-version -->
+
 ```go
 import (
-	"github.com/stainless-sdks/rails-go" // imported as rails
+	"github.com/railsinfra/rails-go" // imported as rails
 )
 ```
 
+<!-- x-release-please-end -->
+
 Or to pin the version:
 
+<!-- x-release-please-start-version -->
+
 ```sh
-go get -u 'github.com/stainless-sdks/rails-go@v0.0.1'
+go get -u 'github.com/railsinfra/rails-go@v0.3.0'
 ```
+
+<!-- x-release-please-end -->
 
 ## Requirements
 
@@ -40,19 +48,20 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stainless-sdks/rails-go"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go"
+	"github.com/railsinfra/rails-go/option"
 )
 
 func main() {
 	client := rails.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("RAILS_API_KEY")
+		option.WithAPIKey("My API Key"),    // defaults to os.LookupEnv("RAILS_API_KEY")
+		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
 	)
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
@@ -68,7 +77,7 @@ func main() {
 The rails library uses the [`omitzero`](https://tip.golang.org/doc/go1.24#encodingjsonpkgencodingjson)
 semantics from the Go 1.24+ `encoding/json` release for request fields.
 
-Required primitive fields (`int64`, `string`, etc.) feature the tag <code>\`json:"...,required"\`</code>. These
+Required primitive fields (`int64`, `string`, etc.) feature the tag <code>\`api:"required"\`</code>. These
 fields are always serialized, even their zero values.
 
 Optional primitive types are wrapped in a `param.Opt[T]`. These fields can be set with the provided constructors, `rails.String(string)`, `rails.Int(int64)`, etc.
@@ -274,7 +283,7 @@ client.Users.New(context.TODO(), ...,
 
 The request option `option.WithDebugLog(nil)` may be helpful while debugging.
 
-See the [full list of request options](https://pkg.go.dev/github.com/stainless-sdks/rails-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/railsinfra/rails-go/option).
 
 ### Pagination
 
@@ -296,10 +305,10 @@ To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
 _, err := client.Users.New(context.TODO(), rails.UserNewParams{
-	Email:        "dev@stainless.com",
-	FirstName:    "first_name",
-	LastName:     "last_name",
-	Password:     "password",
+	Email:        "jane@example.com",
+	FirstName:    "Jane",
+	LastName:     "Doe",
+	Password:     "your-secure-password",
 	XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 })
 if err != nil {
@@ -329,10 +338,10 @@ defer cancel()
 client.Users.New(
 	ctx,
 	rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	// This sets the per-retry timeout
@@ -371,10 +380,10 @@ client := rails.NewClient(
 client.Users.New(
 	context.TODO(),
 	rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithMaxRetries(5),
@@ -392,10 +401,10 @@ var response *http.Response
 user, err := client.Users.New(
 	context.TODO(),
 	rails.UserNewParams{
-		Email:        "dev@stainless.com",
-		FirstName:    "first_name",
-		LastName:     "last_name",
-		Password:     "password",
+		Email:        "jane@example.com",
+		FirstName:    "Jane",
+		LastName:     "Doe",
+		Password:     "your-secure-password",
 		XEnvironment: rails.UserNewParamsXEnvironmentSandbox,
 	},
 	option.WithResponseInto(&response),
@@ -504,7 +513,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/rails-go/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/railsinfra/rails-go/issues) with questions, bugs, or suggestions.
 
 ## Contributing
 

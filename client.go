@@ -7,31 +7,44 @@ import (
 	"net/http"
 	"os"
 	"slices"
+	"strings"
 
-	"github.com/stainless-sdks/rails-go/internal/requestconfig"
-	"github.com/stainless-sdks/rails-go/option"
+	"github.com/railsinfra/rails-go/internal/requestconfig"
+	"github.com/railsinfra/rails-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with
 // interacting with the rails API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	Options      []option.RequestOption
-	Users        UserService
-	Accounts     AccountService
-	Audit        AuditService
+	Options []option.RequestOption
+	// Users
+	Users UserService
+	// Accounts
+	Accounts AccountService
+	// Transactions
 	Transactions TransactionService
+	// Audit events
+	AuditEvents AuditEventService
 }
 
 // DefaultClientOptions read from the environment (RAILS_API_KEY, RAILS_BASE_URL).
 // This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
-	defaults := []option.RequestOption{option.WithEnvironmentProduction()}
+	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentStaging()}
 	if o, ok := os.LookupEnv("RAILS_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
 	if o, ok := os.LookupEnv("RAILS_API_KEY"); ok {
 		defaults = append(defaults, option.WithAPIKey(o))
+	}
+	if o, ok := os.LookupEnv("RAILS_CUSTOM_HEADERS"); ok {
+		for _, line := range strings.Split(o, "\n") {
+			colon := strings.Index(line, ":")
+			if colon >= 0 {
+				defaults = append(defaults, option.WithHeader(strings.TrimSpace(line[:colon]), strings.TrimSpace(line[colon+1:])))
+			}
+		}
 	}
 	return defaults
 }
@@ -47,8 +60,8 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r.Users = NewUserService(opts...)
 	r.Accounts = NewAccountService(opts...)
-	r.Audit = NewAuditService(opts...)
 	r.Transactions = NewTransactionService(opts...)
+	r.AuditEvents = NewAuditEventService(opts...)
 
 	return
 }
