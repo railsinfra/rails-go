@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 (2026-05-14)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/railsinfra/rails-go/compare/v0.4.0...v0.4.1)
+
+### Features
+
+* **client:** optimize json encoder for internal types ([fa9045f](https://github.com/railsinfra/rails-go/commit/fa9045faff6411ef8c12f382da75d202fefcdbfd))
+
 ## 0.4.0 (2026-05-12)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/railsinfra/rails-go/compare/v0.3.0...v0.4.0)
