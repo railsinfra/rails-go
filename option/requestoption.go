@@ -270,7 +270,7 @@ func WithEnvironmentStaging() RequestOption {
 // environment to be the "production" environment. An environment specifies which base URL
 // to use by default.
 func WithEnvironmentProduction() RequestOption {
-	return requestconfig.WithDefaultBaseURL("https://rails-client-server-production.up.railway.app/")
+	return requestconfig.WithDefaultBaseURL("https://www.api.railsinfra.com/")
 }
 
 // WithAPIKey returns a RequestOption that sets the client setting "api_key".
