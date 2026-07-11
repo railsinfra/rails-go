@@ -28,15 +28,16 @@ func TestAuditEventListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.AuditEvents.List(context.TODO(), rails.AuditEventListParams{
-		Action:      rails.String("action"),
-		Environment: rails.AuditEventListParamsEnvironmentSandbox,
-		From:        rails.Time(time.Now()),
-		Outcome:     rails.AuditEventListParamsOutcomeSuccess,
-		Page:        rails.Int(1),
-		PerPage:     rails.Int(1),
-		TargetID:    rails.String("target_id"),
-		TargetType:  rails.String("target_type"),
-		To:          rails.Time(time.Now()),
+		Action:       rails.String("action"),
+		Environment:  rails.AuditEventListParamsEnvironmentSandbox,
+		From:         rails.Time(time.Now()),
+		Outcome:      rails.AuditEventListParamsOutcomeSuccess,
+		Page:         rails.Int(1),
+		PerPage:      rails.Int(1),
+		TargetID:     rails.String("target_id"),
+		TargetType:   rails.String("target_type"),
+		To:           rails.Time(time.Now()),
+		XEnvironment: rails.AuditEventListParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		var apierr *rails.Error
