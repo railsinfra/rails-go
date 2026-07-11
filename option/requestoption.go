@@ -259,18 +259,18 @@ func WithRequestTimeout(dur time.Duration) RequestOption {
 	})
 }
 
-// WithEnvironmentStaging returns a RequestOption that sets the current
-// environment to be the "staging" environment. An environment specifies which base URL
-// to use by default.
-func WithEnvironmentStaging() RequestOption {
-	return requestconfig.WithDefaultBaseURL("https://rails-client-server-staging.up.railway.app/")
-}
-
 // WithEnvironmentProduction returns a RequestOption that sets the current
 // environment to be the "production" environment. An environment specifies which base URL
 // to use by default.
 func WithEnvironmentProduction() RequestOption {
 	return requestconfig.WithDefaultBaseURL("https://www.api.railsinfra.com/")
+}
+
+// WithEnvironmentStaging returns a RequestOption that sets the current
+// environment to be the "staging" environment. An environment specifies which base URL
+// to use by default.
+func WithEnvironmentStaging() RequestOption {
+	return requestconfig.WithDefaultBaseURL("https://rails-client-server-staging.up.railway.app/")
 }
 
 // WithAPIKey returns a RequestOption that sets the client setting "api_key".

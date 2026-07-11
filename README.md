@@ -54,8 +54,8 @@ import (
 
 func main() {
 	client := rails.NewClient(
-		option.WithAPIKey("My API Key"),    // defaults to os.LookupEnv("RAILS_API_KEY")
-		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
+		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("RAILS_API_KEY")
+		option.WithEnvironmentStaging(), // defaults to option.WithEnvironmentProduction()
 	)
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
 		Email:        "jane@example.com",
