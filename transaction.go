@@ -42,7 +42,10 @@ func NewTransactionService(opts ...option.RequestOption) (r TransactionService) 
 }
 
 // Retrieve transaction
-func (r *TransactionService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *shared.Transaction, err error) {
+func (r *TransactionService) Get(ctx context.Context, id string, query TransactionGetParams, opts ...option.RequestOption) (res *shared.Transaction, err error) {
+	if !param.IsOmitted(query.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", query.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
@@ -54,22 +57,28 @@ func (r *TransactionService) Get(ctx context.Context, id string, opts ...option.
 }
 
 // List transactions by organization
-func (r *TransactionService) List(ctx context.Context, query TransactionListParams, opts ...option.RequestOption) (res *TransactionListResponse, err error) {
+func (r *TransactionService) List(ctx context.Context, params TransactionListParams, opts ...option.RequestOption) (res *TransactionListResponse, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/transactions"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return res, err
 }
 
 // List account transactions
-func (r *TransactionService) ListByAccount(ctx context.Context, accountID string, query TransactionListByAccountParams, opts ...option.RequestOption) (res *[]shared.Transaction, err error) {
+func (r *TransactionService) ListByAccount(ctx context.Context, accountID string, params TransactionListByAccountParams, opts ...option.RequestOption) (res *[]shared.Transaction, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if accountID == "" {
 		err = errors.New("missing required account_id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/transactions", accountID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return res, err
 }
 
@@ -158,10 +167,25 @@ func (r *TransactionListResponsePagination) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type TransactionGetParams struct {
+	// Any of "sandbox", "production".
+	XEnvironment TransactionGetParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
+	paramObj
+}
+
+type TransactionGetParamsXEnvironment string
+
+const (
+	TransactionGetParamsXEnvironmentSandbox    TransactionGetParamsXEnvironment = "sandbox"
+	TransactionGetParamsXEnvironmentProduction TransactionGetParamsXEnvironment = "production"
+)
+
 type TransactionListParams struct {
 	OrganizationID string           `query:"organization_id" api:"required" format:"uuid" json:"-"`
 	Page           param.Opt[int64] `query:"page,omitzero" json:"-"`
 	PerPage        param.Opt[int64] `query:"per_page,omitzero" json:"-"`
+	// Any of "sandbox", "production".
+	XEnvironment TransactionListParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -173,8 +197,17 @@ func (r TransactionListParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
+type TransactionListParamsXEnvironment string
+
+const (
+	TransactionListParamsXEnvironmentSandbox    TransactionListParamsXEnvironment = "sandbox"
+	TransactionListParamsXEnvironmentProduction TransactionListParamsXEnvironment = "production"
+)
+
 type TransactionListByAccountParams struct {
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+	// Any of "sandbox", "production".
+	XEnvironment TransactionListByAccountParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -186,3 +219,10 @@ func (r TransactionListByAccountParams) URLQuery() (v url.Values, err error) {
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
+
+type TransactionListByAccountParamsXEnvironment string
+
+const (
+	TransactionListByAccountParamsXEnvironmentSandbox    TransactionListByAccountParamsXEnvironment = "sandbox"
+	TransactionListByAccountParamsXEnvironmentProduction TransactionListByAccountParamsXEnvironment = "production"
+)

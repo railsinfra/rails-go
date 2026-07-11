@@ -71,7 +71,7 @@ type UserNewParams struct {
 	LastName  string `json:"last_name" api:"required"`
 	Password  string `json:"password" api:"required" format:"password"`
 	// Any of "sandbox", "production".
-	XEnvironment UserNewParamsXEnvironment `header:"X-Environment,omitzero" api:"required" json:"-"`
+	XEnvironment UserNewParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
