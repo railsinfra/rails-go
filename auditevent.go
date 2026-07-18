@@ -4,6 +4,7 @@ package rails
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 	"slices"
@@ -39,10 +40,13 @@ func NewAuditEventService(opts ...option.RequestOption) (r AuditEventService) {
 }
 
 // List audit events
-func (r *AuditEventService) List(ctx context.Context, query AuditEventListParams, opts ...option.RequestOption) (res *AuditEventListResponse, err error) {
+func (r *AuditEventService) List(ctx context.Context, params AuditEventListParams, opts ...option.RequestOption) (res *AuditEventListResponse, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/audit/events"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return res, err
 }
 
@@ -218,6 +222,8 @@ type AuditEventListParams struct {
 	Environment AuditEventListParamsEnvironment `query:"environment,omitzero" json:"-"`
 	// Any of "success", "client_error", "server_error".
 	Outcome AuditEventListParamsOutcome `query:"outcome,omitzero" json:"-"`
+	// Any of "sandbox", "production".
+	XEnvironment AuditEventListParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -243,4 +249,11 @@ const (
 	AuditEventListParamsOutcomeSuccess     AuditEventListParamsOutcome = "success"
 	AuditEventListParamsOutcomeClientError AuditEventListParamsOutcome = "client_error"
 	AuditEventListParamsOutcomeServerError AuditEventListParamsOutcome = "server_error"
+)
+
+type AuditEventListParamsXEnvironment string
+
+const (
+	AuditEventListParamsXEnvironmentSandbox    AuditEventListParamsXEnvironment = "sandbox"
+	AuditEventListParamsXEnvironmentProduction AuditEventListParamsXEnvironment = "production"
 )

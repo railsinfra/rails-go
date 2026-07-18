@@ -32,6 +32,7 @@ func TestAccountNewWithOptionalParams(t *testing.T) {
 		UserID:         "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		Environment:    rails.String("environment"),
 		OrganizationID: rails.String("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		XEnvironment:   rails.AccountNewParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		var apierr *rails.Error
@@ -42,7 +43,7 @@ func TestAccountNewWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestAccountGet(t *testing.T) {
+func TestAccountGetWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -55,7 +56,13 @@ func TestAccountGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Accounts.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	_, err := client.Accounts.Get(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.AccountGetParams{
+			XEnvironment: rails.AccountGetParamsXEnvironmentSandbox,
+		},
+	)
 	if err != nil {
 		var apierr *rails.Error
 		if errors.As(err, &apierr) {
@@ -65,7 +72,7 @@ func TestAccountGet(t *testing.T) {
 	}
 }
 
-func TestAccountList(t *testing.T) {
+func TestAccountListWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -79,7 +86,8 @@ func TestAccountList(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Accounts.List(context.TODO(), rails.AccountListParams{
-		UserID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		UserID:       "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		XEnvironment: rails.AccountListParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		var apierr *rails.Error
@@ -90,7 +98,7 @@ func TestAccountList(t *testing.T) {
 	}
 }
 
-func TestAccountClose(t *testing.T) {
+func TestAccountCloseWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -103,7 +111,13 @@ func TestAccountClose(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Accounts.Close(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	_, err := client.Accounts.Close(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.AccountCloseParams{
+			XEnvironment: rails.AccountCloseParamsXEnvironmentSandbox,
+		},
+	)
 	if err != nil {
 		var apierr *rails.Error
 		if errors.As(err, &apierr) {
@@ -130,8 +144,9 @@ func TestAccountDepositWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		rails.AccountDepositParams{
-			Amount:      "amount",
-			Description: rails.String("description"),
+			Amount:       "amount",
+			Description:  rails.String("description"),
+			XEnvironment: rails.AccountDepositParamsXEnvironmentSandbox,
 		},
 	)
 	if err != nil {
@@ -160,9 +175,10 @@ func TestAccountTransferWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		rails.AccountTransferParams{
-			Amount:      "amount",
-			ToAccountID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-			Description: rails.String("description"),
+			Amount:       "amount",
+			ToAccountID:  "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			Description:  rails.String("description"),
+			XEnvironment: rails.AccountTransferParamsXEnvironmentSandbox,
 		},
 	)
 	if err != nil {
@@ -191,7 +207,8 @@ func TestAccountUpdateStatusWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		rails.AccountUpdateStatusParams{
-			Status: rails.AccountUpdateStatusParamsStatusActive,
+			Status:       rails.AccountUpdateStatusParamsStatusActive,
+			XEnvironment: rails.AccountUpdateStatusParamsXEnvironmentSandbox,
 		},
 	)
 	if err != nil {
@@ -220,8 +237,9 @@ func TestAccountWithdrawWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		rails.AccountWithdrawParams{
-			Amount:      "amount",
-			Description: rails.String("description"),
+			Amount:       "amount",
+			Description:  rails.String("description"),
+			XEnvironment: rails.AccountWithdrawParamsXEnvironmentSandbox,
 		},
 	)
 	if err != nil {

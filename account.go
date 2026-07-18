@@ -42,15 +42,21 @@ func NewAccountService(opts ...option.RequestOption) (r AccountService) {
 }
 
 // Create account
-func (r *AccountService) New(ctx context.Context, body AccountNewParams, opts ...option.RequestOption) (res *Account, err error) {
+func (r *AccountService) New(ctx context.Context, params AccountNewParams, opts ...option.RequestOption) (res *Account, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/accounts"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
 }
 
 // Retrieve account
-func (r *AccountService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *Account, err error) {
+func (r *AccountService) Get(ctx context.Context, id string, query AccountGetParams, opts ...option.RequestOption) (res *Account, err error) {
+	if !param.IsOmitted(query.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", query.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
@@ -62,15 +68,21 @@ func (r *AccountService) Get(ctx context.Context, id string, opts ...option.Requ
 }
 
 // List accounts
-func (r *AccountService) List(ctx context.Context, query AccountListParams, opts ...option.RequestOption) (res *[]Account, err error) {
+func (r *AccountService) List(ctx context.Context, params AccountListParams, opts ...option.RequestOption) (res *[]Account, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	path := "api/v1/accounts"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return res, err
 }
 
 // Close account
-func (r *AccountService) Close(ctx context.Context, id string, opts ...option.RequestOption) (res *Account, err error) {
+func (r *AccountService) Close(ctx context.Context, id string, body AccountCloseParams, opts ...option.RequestOption) (res *Account, err error) {
+	if !param.IsOmitted(body.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", body.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
@@ -82,50 +94,62 @@ func (r *AccountService) Close(ctx context.Context, id string, opts ...option.Re
 }
 
 // Deposit into account
-func (r *AccountService) Deposit(ctx context.Context, id string, body AccountDepositParams, opts ...option.RequestOption) (res *AccountDepositResponse, err error) {
+func (r *AccountService) Deposit(ctx context.Context, id string, params AccountDepositParams, opts ...option.RequestOption) (res *AccountDepositResponse, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/deposit", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
 }
 
 // Transfer between accounts
-func (r *AccountService) Transfer(ctx context.Context, id string, body AccountTransferParams, opts ...option.RequestOption) (res *AccountTransferResponse, err error) {
+func (r *AccountService) Transfer(ctx context.Context, id string, params AccountTransferParams, opts ...option.RequestOption) (res *AccountTransferResponse, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/transfer", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
 }
 
 // Update account status
-func (r *AccountService) UpdateStatus(ctx context.Context, id string, body AccountUpdateStatusParams, opts ...option.RequestOption) (res *Account, err error) {
+func (r *AccountService) UpdateStatus(ctx context.Context, id string, params AccountUpdateStatusParams, opts ...option.RequestOption) (res *Account, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
 	return res, err
 }
 
 // Withdraw from account
-func (r *AccountService) Withdraw(ctx context.Context, id string, body AccountWithdrawParams, opts ...option.RequestOption) (res *AccountWithdrawResponse, err error) {
+func (r *AccountService) Withdraw(ctx context.Context, id string, params AccountWithdrawParams, opts ...option.RequestOption) (res *AccountWithdrawResponse, err error) {
+	if !param.IsOmitted(params.XEnvironment) {
+		opts = append(opts, option.WithHeader("X-Environment", fmt.Sprintf("%v", params.XEnvironment)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return nil, err
 	}
 	path := fmt.Sprintf("api/v1/accounts/%s/withdraw", id)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
 }
 
@@ -250,6 +274,8 @@ type AccountNewParams struct {
 	UserID         string            `json:"user_id" api:"required" format:"uuid"`
 	Environment    param.Opt[string] `json:"environment,omitzero"`
 	OrganizationID param.Opt[string] `json:"organization_id,omitzero" format:"uuid"`
+	// Any of "sandbox", "production".
+	XEnvironment AccountNewParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -268,8 +294,30 @@ const (
 	AccountNewParamsAccountTypeSaving   AccountNewParamsAccountType = "saving"
 )
 
+type AccountNewParamsXEnvironment string
+
+const (
+	AccountNewParamsXEnvironmentSandbox    AccountNewParamsXEnvironment = "sandbox"
+	AccountNewParamsXEnvironmentProduction AccountNewParamsXEnvironment = "production"
+)
+
+type AccountGetParams struct {
+	// Any of "sandbox", "production".
+	XEnvironment AccountGetParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
+	paramObj
+}
+
+type AccountGetParamsXEnvironment string
+
+const (
+	AccountGetParamsXEnvironmentSandbox    AccountGetParamsXEnvironment = "sandbox"
+	AccountGetParamsXEnvironmentProduction AccountGetParamsXEnvironment = "production"
+)
+
 type AccountListParams struct {
 	UserID string `query:"user_id" api:"required" format:"uuid" json:"-"`
+	// Any of "sandbox", "production".
+	XEnvironment AccountListParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -281,9 +329,31 @@ func (r AccountListParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
+type AccountListParamsXEnvironment string
+
+const (
+	AccountListParamsXEnvironmentSandbox    AccountListParamsXEnvironment = "sandbox"
+	AccountListParamsXEnvironmentProduction AccountListParamsXEnvironment = "production"
+)
+
+type AccountCloseParams struct {
+	// Any of "sandbox", "production".
+	XEnvironment AccountCloseParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
+	paramObj
+}
+
+type AccountCloseParamsXEnvironment string
+
+const (
+	AccountCloseParamsXEnvironmentSandbox    AccountCloseParamsXEnvironment = "sandbox"
+	AccountCloseParamsXEnvironmentProduction AccountCloseParamsXEnvironment = "production"
+)
+
 type AccountDepositParams struct {
 	Amount      string            `json:"amount" api:"required"`
 	Description param.Opt[string] `json:"description,omitzero"`
+	// Any of "sandbox", "production".
+	XEnvironment AccountDepositParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -295,10 +365,19 @@ func (r *AccountDepositParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type AccountDepositParamsXEnvironment string
+
+const (
+	AccountDepositParamsXEnvironmentSandbox    AccountDepositParamsXEnvironment = "sandbox"
+	AccountDepositParamsXEnvironmentProduction AccountDepositParamsXEnvironment = "production"
+)
+
 type AccountTransferParams struct {
 	Amount      string            `json:"amount" api:"required"`
 	ToAccountID string            `json:"to_account_id" api:"required" format:"uuid"`
 	Description param.Opt[string] `json:"description,omitzero"`
+	// Any of "sandbox", "production".
+	XEnvironment AccountTransferParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -310,9 +389,18 @@ func (r *AccountTransferParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type AccountTransferParamsXEnvironment string
+
+const (
+	AccountTransferParamsXEnvironmentSandbox    AccountTransferParamsXEnvironment = "sandbox"
+	AccountTransferParamsXEnvironmentProduction AccountTransferParamsXEnvironment = "production"
+)
+
 type AccountUpdateStatusParams struct {
 	// Any of "active", "suspended", "closed".
 	Status AccountUpdateStatusParamsStatus `json:"status,omitzero"`
+	// Any of "sandbox", "production".
+	XEnvironment AccountUpdateStatusParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -332,9 +420,18 @@ const (
 	AccountUpdateStatusParamsStatusClosed    AccountUpdateStatusParamsStatus = "closed"
 )
 
+type AccountUpdateStatusParamsXEnvironment string
+
+const (
+	AccountUpdateStatusParamsXEnvironmentSandbox    AccountUpdateStatusParamsXEnvironment = "sandbox"
+	AccountUpdateStatusParamsXEnvironmentProduction AccountUpdateStatusParamsXEnvironment = "production"
+)
+
 type AccountWithdrawParams struct {
 	Amount      string            `json:"amount" api:"required"`
 	Description param.Opt[string] `json:"description,omitzero"`
+	// Any of "sandbox", "production".
+	XEnvironment AccountWithdrawParamsXEnvironment `header:"X-Environment,omitzero" json:"-"`
 	paramObj
 }
 
@@ -345,3 +442,10 @@ func (r AccountWithdrawParams) MarshalJSON() (data []byte, err error) {
 func (r *AccountWithdrawParams) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type AccountWithdrawParamsXEnvironment string
+
+const (
+	AccountWithdrawParamsXEnvironmentSandbox    AccountWithdrawParamsXEnvironment = "sandbox"
+	AccountWithdrawParamsXEnvironmentProduction AccountWithdrawParamsXEnvironment = "production"
+)

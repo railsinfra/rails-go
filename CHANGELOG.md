@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.5.0 (2026-07-18)
+
+Full Changelog: [v0.4.1...v0.5.0](https://github.com/railsinfra/rails-go/compare/v0.4.1...v0.5.0)
+
+### Features
+
+* **api:** api update ([16af3a4](https://github.com/railsinfra/rails-go/commit/16af3a4e0b39759514f792b5d6ece88aca005910))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([4401d1d](https://github.com/railsinfra/rails-go/commit/4401d1d62b93d5cb28bae5e681cbbb8ad23d6d97))
+
+
+### Bug Fixes
+
+* set production as default environment for docs snippets ([6855992](https://github.com/railsinfra/rails-go/commit/6855992827ff8cafd70d61ddcf5a6fe3a12d395e))
+
+
+### Chores
+
+* **config:** update production sdk base url to www.api.railsinfra.com ([aa5b6a3](https://github.com/railsinfra/rails-go/commit/aa5b6a372c2182e9428b1b0f8fd65debefd943e7))
+
 ## 0.4.1 (2026-05-14)
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/railsinfra/rails-go/compare/v0.4.0...v0.4.1)

@@ -28,7 +28,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/railsinfra/rails-go@v0.4.1'
+go get -u 'github.com/railsinfra/rails-go@v0.5.0'
 ```
 
 <!-- x-release-please-end -->
@@ -54,8 +54,8 @@ import (
 
 func main() {
 	client := rails.NewClient(
-		option.WithAPIKey("My API Key"),    // defaults to os.LookupEnv("RAILS_API_KEY")
-		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
+		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("RAILS_API_KEY")
+		option.WithEnvironmentStaging(), // defaults to option.WithEnvironmentProduction()
 	)
 	user, err := client.Users.New(context.TODO(), rails.UserNewParams{
 		Email:        "jane@example.com",

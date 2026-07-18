@@ -13,7 +13,7 @@ import (
 	"github.com/railsinfra/rails-go/option"
 )
 
-func TestTransactionGet(t *testing.T) {
+func TestTransactionGetWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,7 +26,13 @@ func TestTransactionGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Transactions.Get(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+	_, err := client.Transactions.Get(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		rails.TransactionGetParams{
+			XEnvironment: rails.TransactionGetParamsXEnvironmentSandbox,
+		},
+	)
 	if err != nil {
 		var apierr *rails.Error
 		if errors.As(err, &apierr) {
@@ -53,6 +59,7 @@ func TestTransactionListWithOptionalParams(t *testing.T) {
 		OrganizationID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		Page:           rails.Int(1),
 		PerPage:        rails.Int(1),
+		XEnvironment:   rails.TransactionListParamsXEnvironmentSandbox,
 	})
 	if err != nil {
 		var apierr *rails.Error
@@ -80,7 +87,8 @@ func TestTransactionListByAccountWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		rails.TransactionListByAccountParams{
-			Limit: rails.Int(0),
+			Limit:        rails.Int(0),
+			XEnvironment: rails.TransactionListByAccountParamsXEnvironmentSandbox,
 		},
 	)
 	if err != nil {
